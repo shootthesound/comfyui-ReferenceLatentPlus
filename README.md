@@ -105,7 +105,6 @@ I built this against Klein and tested most of the defaults there:
 
 - **`strength = 0.85`** felt like the sweet spot for typical prompts. 1.0 was slightly too dominant; <0.5 too subtle.
 - **For style/identity, gate the ref to the late timesteps** — try `start_percent=0.6, end_percent=1.0`. Klein's clean-end timesteps carry style/identity signal; the noisy-early timesteps drive composition. Restricting refs to the clean end lets your prompt's composition come through unconstrained.
-- **`ref_latents_method="index"`** (the only method I expose) was the only one of Klein's four that produced reliably useful results across Base and Distilled. The others are silently weak (Frozen) or only useful in specific cases (Side-by-side for editing, Grid for multi-ref tiling).
 
 On other models the mechanism still works but the sweet-spot values may differ — try `strength=1.0` first, then dial.
 
@@ -141,9 +140,3 @@ If this node saves you wiring time or unlocks something you couldn't do with the
 <a href="https://buymeacoffee.com/lorasandlenses"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
 
 I also build [**Fizgig**](https://github.com/shootthesound/Fizgig) — a focused trainer, profiler, repair workbench and explorer for Flux 2 Klein 9B LoRAs. If you train LoRAs on Klein, take a look.
-
----
-
-### Backward compatibility
-
-This node was originally `Klein Reference Latent+` / class `KleinReferenceLatentPlus`. After realising the mechanism is generic, I renamed it. Workflows saved under the old class name keep loading via a backward-compat alias — both `ReferenceLatentPlus` and `KleinReferenceLatentPlus` resolve to the same class.
