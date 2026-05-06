@@ -49,6 +49,8 @@ I tested all of this against Flux2/Klein 9B (the model I'm building [Fizgig](htt
 2. (Optional, for the auto-mask feature) `pip install mediapipe` into your ComfyUI venv. The selfie_multiclass model auto-downloads on first use.
 3. Restart ComfyUI. The node appears under **`advanced/conditioning > Reference Latent+`**.
 
+There's a ready-made example workflow in [`examples/klein-9b-reference-latent-plus.json`](examples/klein-9b-reference-latent-plus.json) — drag it into ComfyUI to see the wiring (Flux2/Klein 9B Distilled, 4-step). Adjust the model filenames in the loaders to match what you have installed.
+
 Wire it up:
 
 ```
