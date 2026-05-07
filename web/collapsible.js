@@ -156,7 +156,18 @@ app.registerExtension({
                         !this._reflatentplus_collapsed[g.prefix];
                     refreshUI(this);
                 });
+                // The header button is UI-only; it must NOT participate in
+                // workflow serialization or every save inserts a `null`
+                // placeholder into widgets_values, shifting subsequent values
+                // by one position when reloaded on a setup where the buttons
+                // aren't in the same array slot (e.g. older frontend, JS not
+                // yet loaded). That manifested as strings landing in FLOAT
+                // widgets and booleans in COMBO widgets on user reports.
+                // Set every flag every plausible ComfyUI version checks:
                 btn.serialize = false;
+                btn.options = btn.options || {};
+                btn.options.serialize = false;
+                btn.serializeValue = () => undefined;
                 g.headerWidget = btn;
 
                 if (g.widgets.length > 0) {
@@ -171,6 +182,19 @@ app.registerExtension({
 
             refreshUI(this);
             return result;
+        };
+
+        // Strip null entries from widgets_values during workflow load.
+        // Earlier versions of this extension let the collapsible-header buttons
+        // serialize as `null` placeholders, which then mis-aligned values when
+        // reloaded on a setup where the button widget count differed. Defensive
+        // filter ensures saved-in-the-wild workflows still load cleanly.
+        const onConfigure = nodeType.prototype.onConfigure;
+        nodeType.prototype.onConfigure = function (info) {
+            if (info && Array.isArray(info.widgets_values)) {
+                info.widgets_values = info.widgets_values.filter((v) => v !== null);
+            }
+            return onConfigure?.apply(this, arguments);
         };
 
         // Hook connection changes to refresh slots + group visibility.
