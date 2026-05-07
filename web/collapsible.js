@@ -147,24 +147,26 @@ app.registerExtension({
 
             // Add a header button per group, then splice it into position right
             // before the group's first widget.
+            //
+            // Header buttons SERIALIZE NATURALLY (no serialize=false flag). The
+            // earlier non-serializing approach made widgets_values length =
+            // num-data-widgets (e.g. 46), which mis-aligned on positional load
+            // because node.widgets at load time is 50 (4 buttons re-added by
+            // this extension). The compact value at index N then got assigned
+            // to the wrong widget — booleans landing on FLOATs, numbers
+            // landing in COMBOs ("not in list" errors after restart).
+            //
+            // Letting buttons serialize as null keeps widgets_values length
+            // equal to node.widgets length on every save, so positional load
+            // assigns each value to the correct widget regardless of frontend
+            // version. Old compact-format workflows are migrated in
+            // onConfigure below.
             for (const g of groups) {
                 const btn = this.addWidget("button", "▶ " + g.label, null, () => {
                     this._reflatentplus_collapsed[g.prefix] =
                         !this._reflatentplus_collapsed[g.prefix];
                     refreshUI(this);
                 });
-                // The header button is UI-only; it must NOT participate in
-                // workflow serialization or every save inserts a `null`
-                // placeholder into widgets_values, shifting subsequent values
-                // by one position when reloaded on a setup where the buttons
-                // aren't in the same array slot (e.g. older frontend, JS not
-                // yet loaded). That manifested as strings landing in FLOAT
-                // widgets and booleans in COMBO widgets on user reports.
-                // Set every flag every plausible ComfyUI version checks:
-                btn.serialize = false;
-                btn.options = btn.options || {};
-                btn.options.serialize = false;
-                btn.serializeValue = () => undefined;
                 g.headerWidget = btn;
 
                 if (g.widgets.length > 0) {
@@ -181,15 +183,42 @@ app.registerExtension({
             return result;
         };
 
-        // Strip null entries from widgets_values during workflow load.
-        // Earlier versions of this extension let the collapsible-header buttons
-        // serialize as `null` placeholders, which then mis-aligned values when
-        // reloaded on a setup where the button widget count differed. Defensive
-        // filter ensures saved-in-the-wild workflows still load cleanly.
+        // Migration: align widgets_values length to node.widgets length.
+        //
+        // Earlier versions saved a "compact" widgets_values (only data
+        // widgets, length 46) with the header buttons set to non-serializing.
+        // Modern ComfyUI loads positionally — assigning a 46-entry array to a
+        // 50-widget node mis-shifts everything past the first button. After
+        // this fix, header buttons serialize naturally so save count = 50.
+        // For old saves we re-insert nulls at the button positions to expand
+        // back to length 50, which puts every data value on the correct
+        // widget.
         const onConfigure = nodeType.prototype.onConfigure;
         nodeType.prototype.onConfigure = function (info) {
-            if (info && Array.isArray(info.widgets_values)) {
-                info.widgets_values = info.widgets_values.filter((v) => v !== null);
+            if (info && Array.isArray(info.widgets_values) && this.widgets) {
+                const compact = info.widgets_values.filter((v) => v !== null);
+                if (compact.length < this.widgets.length) {
+                    // Build aligned array by walking widgets in order and
+                    // consuming a value from compact for every widget that
+                    // isn't a header button we added.
+                    const headers = new Set(
+                        (this._reflatentplus_groups || [])
+                            .map((g) => g.headerWidget)
+                            .filter(Boolean)
+                    );
+                    const aligned = [];
+                    let consumed = 0;
+                    for (const w of this.widgets) {
+                        if (headers.has(w)) {
+                            aligned.push(null);
+                        } else if (consumed < compact.length) {
+                            aligned.push(compact[consumed++]);
+                        } else {
+                            aligned.push(null);
+                        }
+                    }
+                    info.widgets_values = aligned;
+                }
             }
             return onConfigure?.apply(this, arguments);
         };
