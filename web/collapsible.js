@@ -2,13 +2,10 @@
 // - image_N + mask_N slots reveal as the previous slot gets connected
 // - per-image collapsible mask-config sections appear only when their image is connected
 // - disconnecting an earlier slot never removes a slot that has an active link
-//
-// We register against both the new class name and the legacy "Klein" name so
-// saved workflows from before the rename keep working.
 
 import { app } from "/scripts/app.js";
 
-const NODE_CLASSES = ["ReferenceLatentPlus", "KleinReferenceLatentPlus"];
+const NODE_CLASSES = ["ReferenceLatentPlus"];
 
 const GROUPS = [
     { idx: 1, prefix: "image1_", label: "Image 1 mask + timestep" },

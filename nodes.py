@@ -361,12 +361,8 @@ class ReferenceLatentPlus:
 
 NODE_CLASS_MAPPINGS = {
     "ReferenceLatentPlus": ReferenceLatentPlus,
-    # Backward-compat alias for workflows saved under the old class name.
-    # Maps the old key to the new class so existing workflows keep loading.
-    "KleinReferenceLatentPlus": ReferenceLatentPlus,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
     "ReferenceLatentPlus": "Reference Latent+",
-    "KleinReferenceLatentPlus": "Reference Latent+",
 }
