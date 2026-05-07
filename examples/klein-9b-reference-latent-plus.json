@@ -1,8 +1,8 @@
 {
   "id": "604314b6-7bae-4426-a34e-3669e3cb381f",
   "revision": 0,
-  "last_node_id": 13,
-  "last_link_id": 17,
+  "last_node_id": 14,
+  "last_link_id": 22,
   "nodes": [
     {
       "id": 1,
@@ -95,8 +95,8 @@
           "name": "VAE",
           "type": "VAE",
           "links": [
-            4,
-            5
+            5,
+            19
           ]
         }
       ],
@@ -183,286 +183,6 @@
       ]
     },
     {
-      "id": 4,
-      "type": "LoadImage",
-      "pos": [
-        -980,
-        180
-      ],
-      "size": [
-        320,
-        320
-      ],
-      "flags": {},
-      "order": 3,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            6
-          ]
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "title": "Reference image",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.18.1",
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "person.jpg",
-        "image"
-      ]
-    },
-    {
-      "id": 12,
-      "type": "ConditioningZeroOut",
-      "pos": [
-        -532.3602466419557,
-        123.1986549783629
-      ],
-      "size": [
-        204.134765625,
-        26
-      ],
-      "flags": {},
-      "order": 8,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "conditioning",
-          "type": "CONDITIONING",
-          "link": 15
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            16
-          ]
-        }
-      ],
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.18.1",
-        "Node name for S&R": "ConditioningZeroOut"
-      },
-      "widgets_values": []
-    },
-    {
-      "id": 13,
-      "type": "LoadImage",
-      "pos": [
-        -981.2200984027965,
-        554.0591718992539
-      ],
-      "size": [
-        320,
-        320
-      ],
-      "flags": {},
-      "order": 4,
-      "mode": 0,
-      "inputs": [],
-      "outputs": [
-        {
-          "name": "IMAGE",
-          "type": "IMAGE",
-          "links": [
-            17
-          ]
-        },
-        {
-          "name": "MASK",
-          "type": "MASK",
-          "links": null
-        }
-      ],
-      "title": "Reference image",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.18.1",
-        "Node name for S&R": "LoadImage"
-      },
-      "widgets_values": [
-        "background.png",
-        "image"
-      ]
-    },
-    {
-      "id": 5,
-      "type": "CLIPTextEncode",
-      "pos": [
-        -620,
-        -200
-      ],
-      "size": [
-        400,
-        200
-      ],
-      "flags": {},
-      "order": 6,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "clip",
-          "type": "CLIP",
-          "link": 2
-        }
-      ],
-      "outputs": [
-        {
-          "name": "CONDITIONING",
-          "type": "CONDITIONING",
-          "links": [
-            7,
-            15
-          ]
-        }
-      ],
-      "title": "Prompt (positive)",
-      "properties": {
-        "cnr_id": "comfy-core",
-        "ver": "0.18.1",
-        "Node name for S&R": "CLIPTextEncode"
-      },
-      "widgets_values": [
-        "a photograph of a woman standing in front of a car, cinematic lighting, sharp focus"
-      ],
-      "color": "#232",
-      "bgcolor": "#353"
-    },
-    {
-      "id": 7,
-      "type": "ReferenceLatentPlus",
-      "pos": [
-        -181.03668306713274,
-        -163.71609265035408
-      ],
-      "size": [
-        226.396484375,
-        798
-      ],
-      "flags": {},
-      "order": 7,
-      "mode": 0,
-      "inputs": [
-        {
-          "name": "conditioning",
-          "type": "CONDITIONING",
-          "link": 7
-        },
-        {
-          "name": "vae",
-          "type": "VAE",
-          "link": 4
-        },
-        {
-          "name": "image_1",
-          "type": "IMAGE",
-          "link": 6
-        },
-        {
-          "name": "mask_1",
-          "shape": 7,
-          "type": "MASK",
-          "link": null
-        },
-        {
-          "name": "image_2",
-          "type": "IMAGE",
-          "link": 17
-        },
-        {
-          "name": "mask_2",
-          "type": "MASK",
-          "link": null
-        },
-        {
-          "name": "image_3",
-          "type": "IMAGE",
-          "link": null
-        },
-        {
-          "name": "mask_3",
-          "type": "MASK",
-          "link": null
-        }
-      ],
-      "outputs": [
-        {
-          "name": "conditioning",
-          "type": "CONDITIONING",
-          "links": [
-            8
-          ]
-        }
-      ],
-      "properties": {
-        "aux_id": "shootthesound/comfyui-ReferenceLatentPlus",
-        "ver": "698eee94e166a2b78336d35ef7cfef5300a673af",
-        "Node name for S&R": "ReferenceLatentPlus"
-      },
-      "widgets_values": [
-        1,
-        "pixel_grey",
-        1,
-        true,
-        true,
-        false,
-        true,
-        false,
-        "none",
-        0,
-        0,
-        0,
-        1,
-        0.6,
-        false,
-        false,
-        false,
-        false,
-        false,
-        "none",
-        0,
-        0,
-        0,
-        1,
-        0.85,
-        false,
-        false,
-        false,
-        false,
-        false,
-        "none",
-        0,
-        0,
-        0,
-        1,
-        0.85,
-        false,
-        false,
-        false,
-        false,
-        false,
-        "none",
-        0,
-        0,
-        0,
-        1
-      ]
-    },
-    {
       "id": 8,
       "type": "EmptyFlux2LatentImage",
       "pos": [
@@ -474,7 +194,7 @@
         130
       ],
       "flags": {},
-      "order": 5,
+      "order": 3,
       "mode": 0,
       "inputs": [],
       "outputs": [
@@ -520,7 +240,7 @@
         {
           "name": "positive",
           "type": "CONDITIONING",
-          "link": 8
+          "link": 22
         },
         {
           "name": "negative",
@@ -556,6 +276,290 @@
         "simple",
         1
       ]
+    },
+    {
+      "id": 4,
+      "type": "LoadImage",
+      "pos": [
+        -985.6546349116333,
+        184.7121957596943
+      ],
+      "size": [
+        320,
+        320
+      ],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            20
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "Reference image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.18.1",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "person.jpg",
+        "image"
+      ]
+    },
+    {
+      "id": 12,
+      "type": "ConditioningZeroOut",
+      "pos": [
+        -470.05022006748607,
+        151.23816693687414
+      ],
+      "size": [
+        204.134765625,
+        26
+      ],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 15
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            16
+          ]
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.18.1",
+        "Node name for S&R": "ConditioningZeroOut"
+      },
+      "widgets_values": []
+    },
+    {
+      "id": 13,
+      "type": "LoadImage",
+      "pos": [
+        -981.2200984027965,
+        554.0591718992539
+      ],
+      "size": [
+        320,
+        320
+      ],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            21
+          ]
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "title": "Reference image",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.18.1",
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": [
+        "background.png",
+        "image"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [
+        -622.3366259965429,
+        -159.49848272659486
+      ],
+      "size": [
+        400,
+        200
+      ],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 2
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": [
+            15,
+            18
+          ]
+        }
+      ],
+      "title": "Prompt (positive)",
+      "properties": {
+        "cnr_id": "comfy-core",
+        "ver": "0.18.1",
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [
+        "a photograph of a woman standing in front of a car, cinematic lighting, sharp focus"
+      ],
+      "color": "#232",
+      "bgcolor": "#353"
+    },
+    {
+      "id": 14,
+      "type": "ReferenceLatentPlus",
+      "pos": [
+        -88.03179110453743,
+        -159.99696971381513
+      ],
+      "size": [
+        226.396484375,
+        798
+      ],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 18
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 19
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": 20
+        },
+        {
+          "name": "mask_1",
+          "shape": 7,
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": 21
+        },
+        {
+          "name": "mask_2",
+          "type": "MASK",
+          "link": null
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "mask_3",
+          "type": "MASK",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "links": [
+            22
+          ]
+        }
+      ],
+      "properties": {
+        "aux_id": "shootthesound/comfyui-ReferenceLatentPlus",
+        "ver": "c5c38c56e2d0a37f1612b20310f471c8985f5b50",
+        "Node name for S&R": "ReferenceLatentPlus"
+      },
+      "widgets_values": [
+        1,
+        "pixel_grey",
+        null,
+        1,
+        true,
+        true,
+        false,
+        true,
+        false,
+        "none",
+        0,
+        0,
+        0,
+        1,
+        null,
+        0.8,
+        false,
+        false,
+        false,
+        false,
+        false,
+        "none",
+        0,
+        0,
+        0,
+        1,
+        null,
+        0.85,
+        false,
+        false,
+        false,
+        false,
+        false,
+        "none",
+        0,
+        0,
+        0,
+        1,
+        null,
+        0.85,
+        false,
+        false,
+        false,
+        false,
+        false,
+        "none",
+        0,
+        0,
+        0,
+        1
+      ]
     }
   ],
   "links": [
@@ -576,44 +580,12 @@
       "CLIP"
     ],
     [
-      4,
-      3,
-      0,
-      7,
-      1,
-      "VAE"
-    ],
-    [
       5,
       3,
       0,
       10,
       1,
       "VAE"
-    ],
-    [
-      6,
-      4,
-      0,
-      7,
-      2,
-      "IMAGE"
-    ],
-    [
-      7,
-      5,
-      0,
-      7,
-      0,
-      "CONDITIONING"
-    ],
-    [
-      8,
-      7,
-      0,
-      9,
-      1,
-      "CONDITIONING"
     ],
     [
       10,
@@ -656,12 +628,44 @@
       "CONDITIONING"
     ],
     [
-      17,
+      18,
+      5,
+      0,
+      14,
+      0,
+      "CONDITIONING"
+    ],
+    [
+      19,
+      3,
+      0,
+      14,
+      1,
+      "VAE"
+    ],
+    [
+      20,
+      4,
+      0,
+      14,
+      2,
+      "IMAGE"
+    ],
+    [
+      21,
       13,
       0,
-      7,
+      14,
       4,
       "IMAGE"
+    ],
+    [
+      22,
+      14,
+      0,
+      9,
+      1,
+      "CONDITIONING"
     ]
   ],
   "groups": [
@@ -721,10 +725,10 @@
   "config": {},
   "extra": {
     "ds": {
-      "scale": 0.7972024500000121,
+      "scale": 0.5989500000000084,
       "offset": [
-        1193.3506154684999,
-        490.38793991180796
+        1341.9776266721487,
+        877.9627570396091
       ]
     },
     "frontendVersion": "1.42.10",
